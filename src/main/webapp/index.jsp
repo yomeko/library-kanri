@@ -41,18 +41,38 @@
     input[type="submit"]:hover {
         background-color: #eee;
     }
+    h1{
+    	text-align: center;
+    }
 </style>
 
 </head>
 <body>
+<h1>図書管理システム！</h1>
     <table>
     	<tr>
-			<td><form action = "Login" method = "post"><input type="submit" value="ログイン" name="Login"></form></td>
-			<td><form action = "Main" method = "post"><input type="submit" value="一覧" name="itiran"></form></td>
+			<td>
+				<form action = "Login" method = "post">
+					<input type="submit" value="ログイン" name="Login">
+				</form>
+				</td>
+			<td>
+				<form action = "Main" method = "post">
+					<input type="submit" value="一覧" name="itiran">
+				</form>
+			</td>
 		</tr>
 		<tr>
-			<td><form action = "newAcount" method = "post"><input type="submit" value="新規登録" name="newAcount"></form></td>
-			<td><form action = "deleteAcount" method = "post"><input type="submit" value="削除" name="deleteAcount"></form></td>
+			<td>
+				<form action = "newAcount" method = "post">
+					<input type="submit" value="新規登録" name="newAcount">
+				</form>
+			</td>
+			<td>
+				<form action = "deleteAcount" method = "post">
+					<input type="submit" value="削除" name="deleteAcount">
+				</form>
+			</td>
 		</tr>
     </table>
 </body>
