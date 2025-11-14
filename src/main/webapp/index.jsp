@@ -11,11 +11,11 @@
 		<form>
 			<tr>
 			<td><input type = "submit" value ="ログイン" name = "name"></td>
-			<td><input type = "text" value = "一覧" name = "itiran"></td>
+			<td><input type = "submit" value = "一覧" name = "itiran"></td>
 			</tr>
 			<tr>
-			<td><input type = "text" value = "新規登録" name = "new"></td>
-			<td><input type = "text" value = "削除" name = "del"></td>
+			<td><input type = "submit" value = "新規登録" name = "new"></td>
+			<td><input type = "submit" value = "削除" name = "del"></td>
 			</tr>
 		</form>
 	</table>
