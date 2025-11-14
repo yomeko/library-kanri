@@ -46,16 +46,14 @@
 </head>
 <body>
     <table>
-        <form>
-            <tr>
-                <td><input type="submit" value="ログイン" name="Login"></td>
-                <td><input type="submit" value="一覧" name="itiran"></td>
-            </tr>
-            <tr>
-                <td><input type="submit" value="新規登録" name="newAcount"></td>
-                <td><input type="submit" value="削除" name="deleteAcount"></td>
-            </tr>
-        </form>
+    	<tr>
+			<td><form action = "Login" method = "post"><input type="submit" value="ログイン" name="Login"></form></td>
+			<td><form><input type="submit" value="一覧" name="itiran"></form></td>
+		</tr>
+		<tr>
+			<td><form><input type="submit" value="新規登録" name="newAcount"></form></td>
+			<td><form><input type="submit" value="削除" name="deleteAcount"></form></td>
+		</tr>
     </table>
 </body>
 </html>
