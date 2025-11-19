@@ -4,8 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>メニュー</title>
-
+<title>図書館管理システム</title>
 <link rel="stylesheet" href="/css/menu.css">
 
 </head>
