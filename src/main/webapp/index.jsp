@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>図書館管理システム</title>
-<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="CSS/index.css">
 
 </head>
 <body>
