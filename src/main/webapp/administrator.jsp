@@ -3,9 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="CSS/admin.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="CSS/admin.css">
+
 </head>
 <body>
 	<form action="">
