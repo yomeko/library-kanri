@@ -1,5 +1,8 @@
 package model;
 
 public class deleteAcountLogic {
-
+	public boolean execute(User user) {
+		//削除処理（実際の削除処理は行わない）
+		return true;
+	}
 }

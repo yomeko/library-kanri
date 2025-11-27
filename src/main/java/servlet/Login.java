@@ -2,6 +2,10 @@ package servlet;
 
 import java.io.IOException;
 
+<<<<<<< HEAD
+=======
+import jakarta.servlet.RequestDispatcher;
+>>>>>>> branch 'master' of https://github.com/yomeko/-library-kanri.git
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -36,7 +40,10 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		RequestDispatcher dispatcher = 
+				request.getRequestDispatcher(
+				"WEB-INF/jsp/loginResult.jsp");
+		dispatcher.forward(request,response);
 	}
 
 }
