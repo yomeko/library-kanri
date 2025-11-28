@@ -23,7 +23,7 @@
 
         <!-- 1行目 右: 一覧（Mainサーブレット） -->
         <td align="center">
-            <form action="Main" method="post">
+            <form action=" search" method="post">
                 <button type="submit">一覧</button>
             </form>
         </td>
