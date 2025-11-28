@@ -4,9 +4,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ログイン用</title>
 </head>
 <body>
+
+<h1>ログイン</h1>
+
+<form action="WEB-INF/jsp/LoginResult.jsp" method="post">
+    ユーザ名：<input type="text" name="name" required><br><br>
+    パスワード：<input type="password" name="pass" required><br><br>
+    <input type="submit" value="ログイン">
+</form>
+
+<br>
+
+<a href="index.jsp">戻る</a>
 
 </body>
 </html>

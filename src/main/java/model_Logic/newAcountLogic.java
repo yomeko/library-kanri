@@ -1,4 +1,6 @@
-package model;
+package model_Logic;
+
+import model.User;
 
 public class newAcountLogic {
 	public boolean execute(User user) {

@@ -1,4 +1,7 @@
-package model;
+package model_Logic;
+
+import model.User;
+
 
 public class deleteAcountLogic {
 	public boolean execute(User user) {

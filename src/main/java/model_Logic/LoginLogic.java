@@ -1,6 +1,7 @@
-package model;
+package model_Logic;
 
 import DAO.MutterDAO;
+import model.User;
 
 public class LoginLogic {
 	public boolean execute(User user) {
