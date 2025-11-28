@@ -6,7 +6,6 @@
 <meta charset="UTF-8">
 <title>図書館管理システム</title>
 <link rel="stylesheet" href="CSS/index.css">
-
 </head>
 <body>
 
@@ -15,29 +14,29 @@
 <table>
     <tr>
         <td>
-            <form action="Login" method="post">
-            	<input type="submit" value="ログイン" name="Login">
-            </form>
+            <button onclick="location.href='Login.jsp'">
+                ログイン
+            </button>
         </td>
 
         <td>
-            <form action="Main" method="post">
-            	<input type="submit" value="一覧" name="itiran">
-            </form>
+            <button onclick="location.href='jsp/main.jsp'">
+                一覧
+            </button>
         </td>
     </tr>
     
     <tr>
         <td>
-            <form action="newAcount" method="post">
-            	<input type="submit" value="新規登録" name="newAcount">
-            </form>
+            <button onclick="location.href='newAcount.jsp'">
+                新規登録
+            </button>
         </td>
 
         <td>
-            <form action="deleteAcount" method="post">
-            	<input type="submit" value="削除" name="deleteAcount">
-            </form>
+            <button onclick="location.href='deleteAcount.jsp'">
+                削除
+            </button>
         </td>
     </tr>
 </table>
