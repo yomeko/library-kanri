@@ -17,6 +17,7 @@ public class Mutter implements Serializable{
 		this.id = id;
 	}
 	
+	public int getId() {return id;}
 	public int getNumber() { return number;}
 	public String getBook() { return book;}
 }
