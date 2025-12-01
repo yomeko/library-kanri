@@ -42,7 +42,7 @@ public class newAcount extends HttpServlet {
         request.setAttribute("pass", pass);
 
         RequestDispatcher dispatcher =
-                request.getRequestDispatcher("/WEB-INF/jsp/newAcountResult.jsp");
+                request.getRequestDispatcher("/WEB-INF/jsp_Result/newAcountResult.jsp");
         dispatcher.forward(request, response);
     }
 }
