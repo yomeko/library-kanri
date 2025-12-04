@@ -12,7 +12,7 @@ import model.Mutter;
 import model.User;
 
 public class MutterDAO {
-    private final String JDBC_URL = "jdbc:mysql://localhost/library";
+    private final String JDBC_URL = "jdbc:mysql://localhost/library-touroku";
     private final String DB_USER = "root";
     private final String DB_PASS = "";
 

@@ -9,7 +9,11 @@ import model.User;
 
 public class newAcountDAO {
     // 接続情報
-    private final String JDBC_URL = "jdbc:mysql://localhost/dokotsubu";
+<<<<<<< HEAD
+    private final String JDBC_URL = "jdbc:mysql://localhost/library-touroku";
+=======
+    private final String JDBC_URL = "jdbc:mysql://localhost/library";
+>>>>>>> a4e982cec2784693189eff73c62399b277e8aa49
     private final String DB_USER = "root";
     private final String DB_PASS = "";
 
