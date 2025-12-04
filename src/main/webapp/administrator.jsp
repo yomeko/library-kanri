@@ -14,7 +14,7 @@
 <% } %>
 
 <form action="admin" method="post">
-    ID:<input type="number" name="id"><br>
+    
     名前:<input type="text" name="book"><br>
     数量:<input type="number" name="number"><br>
     <input type="submit" value="登録">
