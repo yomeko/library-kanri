@@ -13,12 +13,20 @@ User loginUser = (User)session.getAttribute("loginUser");
 <link rel="stylesheet" href="CSS/index.css">
 </head>
 <body>
-<h1>新規登録画面</h1>
-<% if (loginUser != null){ %>
-	<p>新規登録に成功しました</p>
+<h1>新規登録結果</h1>
+<% 
+String error = (String) request.getAttribute("error");
+if (loginUser != null){ 
+%>
+	<p style="color:green;">新規登録に成功しました</p>
 	<a href="index.jsp">トップへ</a>
-<% } else {%>
-	<p>新規登録に失敗しました</p>
+<% } else { %>
+	<% if (error != null) { %>
+		<p style="color:red;"><%= error %></p>
+	<% } else { %>
+		<p style="color:red;">新規登録に失敗しました</p>
+	<% } %>
+	<a href="newAcount">新規登録画面に戻る</a><br>
 	<a href="index.jsp">トップへ</a>		
 <% } %>
 

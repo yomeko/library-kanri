@@ -18,10 +18,6 @@
         <button type="submit">ログイン</button>
     </form>
 
-    <form action="search" method="post">
-        <button type="submit">一覧</button>
-    </form>
-
     <form action="newAcount" method="get">
         <button type="submit">新規登録</button>
     </form>

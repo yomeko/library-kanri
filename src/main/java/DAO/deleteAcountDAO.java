@@ -13,14 +13,12 @@ public class deleteAcountDAO {
 	private final String DB_PASS = "";
 	public boolean deletem(User user) {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 		}catch(ClassNotFoundException e) {
 			throw new IllegalStateException("JDBCドライバが読み込めませんでした");
 		}
-		try (Connection conn = DriverManager.getConnection(JDBC_URL,DB_USER,DB_PASS)){
-			String sql = "DELETE FROM MEMBER WHERE NAME=? AND PASS=?";
-			
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+		try (Connection conn = DriverManager.getConnection(JDBC_URL,DB_USER,DB_PASS);
+			 PreparedStatement pStmt = conn.prepareStatement("DELETE FROM user WHERE name=? AND pass=?")){
 			
 			pStmt.setString(1, user.getName());
 			pStmt.setString(2, user.getPass());
@@ -34,6 +32,6 @@ public class deleteAcountDAO {
 			return false;
 		}
 		return true;
-		}
 	}
+}
 

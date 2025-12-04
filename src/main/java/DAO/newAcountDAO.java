@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import model.User;
 
@@ -35,6 +36,10 @@ public class newAcountDAO {
             if (result != 1) {
                 return false;
             }
+        } catch (SQLIntegrityConstraintViolationException e) {
+            // 一意制約違反（重複ユーザー名）
+            e.printStackTrace();
+            throw new IllegalStateException("このユーザー名は既に使用されています。別のユーザー名を入力してください。");
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

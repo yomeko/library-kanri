@@ -11,10 +11,17 @@
 	
 	<h1>アカウント削除</h1>
 	
+	<% String error = (String) request.getAttribute("error"); %>
+	<% if (error != null) { %>
+		<p style="color:red;"><%= error %></p>
+	<% } %>
+	
 	<form action="deleteAcount" method="post">
-	ユーザー名 : <input type="text" name="name"><br>
-	パスワード : <input type="password" name="pass"><br>
+	ユーザー名 : <input type="text" name="name" required><br>
+	パスワード : <input type="password" name="pass" required><br>
 	<input type="submit" value="削除">
-	<a href = "index.jsp">戻る</a>
+	</form>
+	<br>
+	<a href="index.jsp">戻る</a>
 </body>
 </html>

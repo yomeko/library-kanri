@@ -36,9 +36,19 @@
         </div>
     </form>
     <br>
-    <from action = "Logout" method = "get">
-    	<button type="submit">ログアウト画面へ遷移</button>
-    </from>
+    <button type="button" onclick="confirmLogout()">ログアウト</button>
+    <script>
+        function confirmLogout() {
+            if (confirm('ログアウトしますか？')) {
+                // フォームを作成してPOST送信
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'Logout';
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
 </div>
 
 <!-- 右半分：DB のデータ一覧を表示 -->
@@ -54,27 +64,22 @@
         </tr>
         
         <%-- サーブレットでセットされた List<Mutter> を表示する処理。 --%>
-        
-        <%-- 
-        
-        List<Mutter> list = (List<Mutter>) request.getAttribute("list");
-            for (Mutter m : list) {
-        --%>
-        
-        <%-- 実際のループ例（コメント解除して使用） --%>
-        
-        <%--
+        <%@ page import="java.util.List" %>
+        <%@ page import="model.Mutter" %>
+        <%
         List<Mutter> list = (List<Mutter>) request.getAttribute("list");
         if(list != null){
             for (Mutter m : list) {
+        %>
                 <tr>
                     <td><%= m.getId() %></td>
                     <td><%= m.getNumber() %></td>
                     <td><%= m.getBook() %></td>
                 </tr>
+        <%
             }
         }
-        --%>
+        %>
     </table>
 
 </div>

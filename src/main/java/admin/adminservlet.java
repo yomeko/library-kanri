@@ -62,7 +62,7 @@ public class adminservlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher dispatcher =
-                request.getRequestDispatcher("/WEB-INF/jsp_Result/administrator.jsp");
+                request.getRequestDispatcher("/WEB-INF/jsp_Result/administrator_result.jsp");
         dispatcher.forward(request, response);
     }
 }

@@ -38,11 +38,14 @@ public class Logout extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		RequestDispatcher dispatcher = 
-				request.getRequestDispatcher(
-				"WEB-INF/jsp_Result/logoutResult.jsp");
-		dispatcher.forward(request,response);
+		// セッションを無効化
+		jakarta.servlet.http.HttpSession session = request.getSession(false);
+		if (session != null) {
+			session.invalidate();
+		}
+		
+		// トップページにリダイレクト
+		response.sendRedirect("index.jsp");
 	}
 
 }

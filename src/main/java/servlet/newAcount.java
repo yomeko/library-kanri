@@ -55,7 +55,15 @@ public class newAcount extends HttpServlet {
             
             System.out.println(user);
             System.out.println(name + pass);
-         }
+         } else {
+            // エラーメッセージを設定
+            String errorMessage = newacountLogic.getErrorMessage();
+            if (errorMessage != null) {
+                request.setAttribute("error", errorMessage);
+            } else {
+                request.setAttribute("error", "新規登録に失敗しました。");
+            }
+        }
 
         // ▼ リクエストスコープに結果保存（JSPに渡す用）
         request.setAttribute("isRegistered", isRegistered);

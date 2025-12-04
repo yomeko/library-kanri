@@ -10,6 +10,11 @@
 
 <h1>ログイン</h1>
 
+<% String error = (String) request.getAttribute("error"); %>
+<% if (error != null) { %>
+    <p style="color:red;"><%= error %></p>
+<% } %>
+
 <!-- Login.java に渡す -->
 <form action="Login" method="post">
     ユーザ名：<input type="text" name="name" required><br><br>

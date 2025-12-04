@@ -96,9 +96,9 @@ public class MutterDAO {
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getPass());
 
-            ResultSet rs = pstmt.executeQuery();
-
-            return rs.next(); // 一件でもあれば成功
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.next(); // 一件でもあれば成功
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
