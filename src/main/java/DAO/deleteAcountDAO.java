@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import model.User;
 
 public class deleteAcountDAO {
-	private final String JDBC_URL = "jdbc:mysql://localhost/";
+	private final String JDBC_URL = "jdbc:mysql://localhost/library-touroku";
 	private final String DB_USER ="root";
 	private final String DB_PASS = "";
 	public boolean deletem(User user) {

@@ -10,6 +10,7 @@ User loginUser = (User)session.getAttribute("loginUser");
 <head>
 <meta charset="UTF-8">
 <title>図書館管理システム</title>
+<link rel="stylesheet" href="CSS/index.css">
 </head>
 <body>
 <h1>ログイン画面</h1>

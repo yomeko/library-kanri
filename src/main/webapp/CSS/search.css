@@ -1,0 +1,49 @@
+/* 全体の画面を左右に並べるため、flex を使用 */
+body {
+    margin: 0;
+    font-family: sans-serif;
+    height: 100vh;        /* 画面の高さを100%に */
+    display: flex;        /* 子要素を横並びにする */
+}
+
+/* 左・右それぞれの領域（幅50%） */
+.left, .right {
+    width: 50%;           /* 画面の半分ずつにする */
+    padding: 20px;        /* 内側の余白 */
+    box-sizing: border-box; /* padding を含めて幅を計算 */
+    overflow-y: auto;     /* 縦スクロールを許可 */
+    border-right: 1px solid #ccc; /* 左側の右端に区切り線 */
+}
+
+/* 右側は区切り線不要なので消す */
+.right {
+    border-right: none;
+}
+
+/* 見出しの余白調整 */
+h1 {
+    margin-top: 0;
+}
+
+/* 入力欄のまとまり（少し余白をつける） */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* テーブル全体の設定 */
+table {
+    width: 100%;                  /* 幅いっぱい使う */
+    border-collapse: collapse;    /* 罫線の重なりを消す */
+    margin-top: 15px;             /* タイトルとの余白 */
+}
+
+/* テーブルの線 */
+table, th, td {
+    border: 1px solid #aaa;
+}
+
+/* テーブル内のセル */
+th, td {
+    padding: 8px;
+    text-align: left;
+}

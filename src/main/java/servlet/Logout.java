@@ -29,7 +29,9 @@ public class Logout extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+        RequestDispatcher dispatcher =
+                request.getRequestDispatcher("WEB-INF/jsp/Logout.jsp");
+        dispatcher.forward(request, response);
 	}
 
 	/**
@@ -39,7 +41,7 @@ public class Logout extends HttpServlet {
 		// TODO Auto-generated method stub
 		RequestDispatcher dispatcher = 
 				request.getRequestDispatcher(
-				"WEB-INF/jsp/logoutResult.jsp");
+				"WEB-INF/jsp_Result/logoutResult.jsp");
 		dispatcher.forward(request,response);
 	}
 
