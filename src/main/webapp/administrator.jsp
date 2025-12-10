@@ -10,22 +10,19 @@
 </head>
 <body>
 
-	<h1>本登録</h1>
+<div class="menu-container">
 
-	<form action="Main" method="post">
-		ID:<input type = "number" name = "id"><br><br>
-		名前:<input type = "text" name = "name"><br><br>
-		数量<input type = "number" name = "num">
-		<input type = "submit" value = "登録">
+	<form action="admin_book_servlet" method="get">
+		<button type="submit">本登録</button>
 	</form>
 
-	<h1>会員情報判定</h1>
-		<>
-	
-	
-	<h1>本の貸出判定</h1>
-		
-	
-	
+    <form action="admin_book_servlet" method="get">
+        <button type="submit">会員情報判定</button>
+    </form>
+
+    <form action="admin_book_servlet" method="get">
+        <button type="submit">本の貸出判定</button>
+    </form>
+</div>
 </body>
 </html>
