@@ -8,6 +8,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.User;
+import model_Logic.LoginLogic;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
@@ -41,11 +44,26 @@ public class Login extends HttpServlet {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        
+        //ログインユーザーオブジェクトを作成
+        User luser = new User(username, password);
+        
+        //ログインロジック実行
+        LoginLogic LoginLogic = new LoginLogic();
+        boolean isLogin = LoginLogic.loginL(luser);
+        
+        //ログイン成功ならセッションスコープに登録
+        if (isLogin) {
+            HttpSession session = request.getSession();
+            session.setAttribute("loginUser", luser);
+            
+            System.out.println(luser);
+            System.out.println(password);
+         }
 
-        // ★ログイン成功したことにする（本来はDBで認証）
-        request.getSession().setAttribute("loginUser", username);
 
         // ログイン結果画面の表示用
+        request.setAttribute("isLogin", isLogin);
         request.setAttribute("username", username);
 
         RequestDispatcher dispatcher =

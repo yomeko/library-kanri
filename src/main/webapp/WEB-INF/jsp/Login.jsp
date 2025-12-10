@@ -12,8 +12,8 @@
 
 <!-- Login.java に渡す -->
 <form action="Login" method="post">
-    ユーザ名：<input type="text" name="name" required><br><br>
-    パスワード：<input type="password" name="pass" required><br><br>
+    ユーザ名：<input type="text" name="username" required><br><br>
+    パスワード：<input type="password" name="password" required><br><br>
     <input type="submit" value="ログイン">
 </form>
 

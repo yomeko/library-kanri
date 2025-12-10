@@ -10,5 +10,6 @@
 <body>
 <h1>登録完了！！</h1>
 <a href="index.jsp">TOPへ</a>
+
 </body>
 </html>
