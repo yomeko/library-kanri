@@ -18,7 +18,7 @@
         <button type="submit">ログイン</button>
     </form>
 
-    <form action="search" method="post">
+    <form action="search" method="get">
         <button type="submit">一覧</button>
     </form>
 
