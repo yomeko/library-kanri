@@ -30,7 +30,7 @@ public class search extends HttpServlet {
             throws ServletException, IOException {
 
         RequestDispatcher dispatcher =
-                request.getRequestDispatcher("jsp_Result/searchResult.jsp");
+                request.getRequestDispatcher("WEB-INF/jsp/search.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -55,7 +55,7 @@ public class search extends HttpServlet {
         request.setAttribute("loginUser", user);
 
         RequestDispatcher dispatcher =
-                request.getRequestDispatcher("WEB-INF/jsp/search.jsp");
+                request.getRequestDispatcher("WEB-INF/jsp/searchResult.jsp");
         dispatcher.forward(request, response);
     }
 }
