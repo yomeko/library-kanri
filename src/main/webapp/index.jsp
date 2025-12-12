@@ -9,7 +9,6 @@
 </head>
 
 <body>
-
 <h1>図書館管理システム</h1>
 <p>ログイン中：${loginUser}</p>
 <div class="menu-container">
@@ -25,12 +24,22 @@
     <form action="newAcount" method="get">
         <button type="submit">新規登録</button>
     </form>
-
+<!--  
     <form action="deleteAcount" method="get">
         <button type="submit">削除</button>
     </form>
+    -->
+    
+<form action="logout" method="get">
+    <button type="submit">ログアウト</button>
+</form>
 
 </div>
+<!-- 右下に固定表示されるアカウント削除ボタン -->
+
+<form action="deleteAcount" method="get" class="delete-floating">
+    <button type="submit">アカウント削除</button>
+</form>
 
 </body>
 </html>
