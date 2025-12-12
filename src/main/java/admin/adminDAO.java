@@ -39,6 +39,11 @@ public class adminDAO {
             return false;
         }
     }
+
+	public void insert(String bookName, int number) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
     
     //会員情報
 }

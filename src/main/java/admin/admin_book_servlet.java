@@ -48,12 +48,13 @@ public class admin_book_servlet extends HttpServlet {
 	    int number = Integer.parseInt(request.getParameter("number"));
 
 	    // DB登録処理（例）
+	    
 	    adminDAO dao = new adminDAO();
 	    dao.insert(bookName, number);
-
+	    
 	    // 完了画面へ遷移
 	    request.setAttribute("message", "本を登録しました！");
-	    request.getRequestDispatcher("/admin_book_result.jsp").forward(request, response);
+	    request.getRequestDispatcher("WEB-INF/admin/admin_book_result.jsp").forward(request, response);
 	}
 
 
