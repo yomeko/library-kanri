@@ -11,7 +11,7 @@
 <body>
 
 <h1>図書館管理システム</h1>
-
+<p>ログイン中：${loginUser}</p>
 <div class="menu-container">
 
     <form action="Login" method="get">
