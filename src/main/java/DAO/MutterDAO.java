@@ -16,9 +16,7 @@ public class MutterDAO {
     // ==============================
     // DB接続情報（完全版）
     // ==============================
-    private static final String JDBC_URL =
-        "jdbc:mysql://localhost:3306/library-touroku"
-      + "?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Tokyo";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/library-touroku";
 
     private static final String DB_USER = "root";
     private static final String DB_PASS = "";
@@ -97,7 +95,7 @@ public class MutterDAO {
         }
         return list;
     }
-
+    
     // ==================================================
     // listテーブル：INSERT
     // ==================================================

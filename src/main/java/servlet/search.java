@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -10,58 +9,47 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import model.Mutter;
-import model_Logic.GetMutterListLogic;
-
 /**
- * 図書検索メニューへ遷移するサーブレット
- * index.jsp → /search → 検索画面
+ * 図書検索を担当するサーブレット
+ * URL : /search
+ *
+ * 【役割】
+ * ・GET  ：検索画面の初期表示
+ * ・POST ：検索条件を受け取り、同じ画面に検索結果を表示
  */
 @WebServlet("/search")
 public class search extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public search() {
-        super();
-    }
-
     /**
-     * 直接 GET でアクセスされた場合の処理
-     * 結果画面にフォワード（必要なら変更可）
+     * 初期表示（検索結果なし）
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // search.jsp を表示
         RequestDispatcher dispatcher =
                 request.getRequestDispatcher("WEB-INF/jsp/search.jsp");
         dispatcher.forward(request, response);
     }
 
     /**
-     * index.jsp の検索ボタン（POST）
-     * → ログインチェック
-     * → ログイン済なら検索画面へ
+     * 検索ボタン押下時の処理
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // ★ログインチェック
-    	
-        String user = (String) request.getSession().getAttribute("loginUser");
-        if (user == null) {
-            response.sendRedirect("index.jsp");
-            return;
-        }
-    	
-     // 図書一覧を取得
-        GetMutterListLogic getMutterListLogic = new GetMutterListLogic();
-        List<Mutter> mutterList = getMutterListLogic.execute();
-        request.setAttribute("list", mutterList);
+        // 文字化け防止
+        request.setCharacterEncoding("UTF-8");
 
+        // フォームから入力された書籍名を取得
+        String book = request.getParameter("book");
+
+        // 同じ search.jsp に結果を表示
         RequestDispatcher dispatcher =
-                request.getRequestDispatcher("WEB-INF/jsp/searchResult.jsp");
+                request.getRequestDispatcher("WEB-INF/jsp/search.jsp");
         dispatcher.forward(request, response);
     }
 }
