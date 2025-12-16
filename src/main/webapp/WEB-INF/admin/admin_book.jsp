@@ -17,7 +17,7 @@
     </tr>
 	<tr>
         <th>数量 : </th>
-        <th><input type="number" name="number"></th>
+        <th><input type="number" name="number" min="1"></th>
     </tr>
     </table>
 	<input type="submit" value="新規登録">
