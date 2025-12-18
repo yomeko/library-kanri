@@ -1,9 +1,27 @@
 @charset "UTF-8";
 body {
-    margin: 0;
     font-family: sans-serif;
-    background-color: #fff;
-	
+
+    /* ▼ 背景画像＋白透明レイヤーを合成（ここだけ変更） */
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
+        url("../images/library.jpg");
+    /* 透明度は 0.3〜0.8 で調整可能（0.6 はちょうど良い） */
+    /* ▲ 追加＆変更部分 */
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;  /* ←忘れずに入れると綺麗に全画面化 */
+
+    /* 元のグラデ背景は不要なので削除してOK */
+    /* background-color: #d9d9d9; ← これも不要 */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
 .container {

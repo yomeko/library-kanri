@@ -67,6 +67,9 @@ public class Login extends HttpServlet {
         // ログイン結果画面の表示用
         request.setAttribute("isLogin", isLogin);
         request.setAttribute("username", username);
+        
+        System.out.println(isLogin + " lougin.java dopost");
+        System.out.println(username + " lougin.java dopost");
 
         RequestDispatcher dispatcher =
                 request.getRequestDispatcher("WEB-INF/jsp_Result/loginResult.jsp");

@@ -18,8 +18,9 @@
 <% if (loginUser != null){ %>
 	<p>ログインに成功しました</p>
 	<a href="index.jsp">トップへ</a>
+	<br>
 <!--  	
-		<a href="search.jsp">一覧へ</a>
+	<a href="search.jsp">一覧へ</a>
 -->
 <% } else {%>
 	<p>ログインに失敗しました</p>
