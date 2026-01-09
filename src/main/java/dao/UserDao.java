@@ -42,13 +42,16 @@ public class UserDao {
         return true;
     }
     
-    public boolean deleteUser(int userId) {
-        String sql = "DELETE FROM users WHERE id = ?";
+    public boolean deleteByNameAndPass(String name, String pass) {
+
+        String sql = "DELETE FROM user WHERE name = ? AND pass = ?";
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, userId);
+            ps.setString(1, name);
+            ps.setString(2, pass);
+
             int result = ps.executeUpdate();
             return result == 1;
 

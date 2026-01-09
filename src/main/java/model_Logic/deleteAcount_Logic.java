@@ -4,8 +4,8 @@ import dao.UserDao;
 
 public class deleteAcount_Logic {
 
-    public boolean execute(int userId) {
+    public boolean execute(String name, String pass) {
         UserDao dao = new UserDao();
-        return dao.deleteUser(userId);
+        return dao.deleteByNameAndPass(name, pass);
     }
 }
