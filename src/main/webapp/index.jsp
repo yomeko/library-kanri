@@ -39,10 +39,8 @@
 
 </table>
 
-<form action="deleteAcount_servlet" method="get" class="delete-btn">
-    <input type="submit" value="アカウント削除">
-</form>
-
+	<form action="deleteAcount_servlet" method="get" class="delete-btn">
+    	<input type="submit" value="アカウント削除">
+	</form>
 </body>
-</html>
 </html>
