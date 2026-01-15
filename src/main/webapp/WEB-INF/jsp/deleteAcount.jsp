@@ -13,10 +13,20 @@
 <p>本当にアカウントを削除しますか？</p>
 
 <form action="deleteAcount_servlet" method="post">
-    <input type="submit" value="削除する">
+    <label>ユーザー名</label><br>
+    <input type="text" name="username" required><br>
+
+    <label>パスワード</label><br>
+    <input type="password" name="password" required><br><br>
+
+    <button type="submit">アカウントを削除</button>
 </form>
 
-<a href="menu.jsp">戻る</a>
+<c:if test="${not empty error}">
+    <p style="color:red">${error}</p>
+</c:if>
+
+<a href="index.jsp">戻る</a>
 
 </body>
 </html>
