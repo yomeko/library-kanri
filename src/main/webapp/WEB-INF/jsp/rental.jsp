@@ -49,8 +49,6 @@ if (message != null) {
     <th>ID</th>
     <th>書籍名</th>
     <th>在庫数</th>
-    <th>貸出</th>
-    <th>返却</th>
 </tr>
 
 <%
@@ -62,24 +60,6 @@ if (books != null) {
     <td><%= book.getId() %></td>
     <td><%= book.getBook() %></td>
     <td><%= book.getNumber() %></td>
-    <td>
-    <% if (book.getNumber() > 0) { %>
-    <form action="rental_servlet" method="post" style="margin:0;" onsubmit="disableButton(this)">
-        <input type="hidden" name="bookId" value="<%= book.getId() %>">
-        <input type="hidden" name="action" value="rent">
-        <button type="submit">貸出</button>
-    </form>
-    <% } else { %>
-    貸出不可
-    <% } %>
-</td>
-<td>
-    <form action="rental_servlet" method="post" style="margin:0;" onsubmit="disableButton(this)">
-        <input type="hidden" name="bookId" value="<%= book.getId() %>">
-        <input type="hidden" name="action" value="return">
-        <button type="submit">返却</button>
-    </form>
-</td>
 </tr>
 <%
     }

@@ -10,19 +10,6 @@
 <body>
 
 <h1>ログイン</h1>
-
-<!-- アカウント削除目的メッセージ -->
-<%
-String reason = (String) request.getAttribute("loginReason");
-if ("deleteAccount".equals(reason)) {
-%>
-    <p style="color:red; font-weight:bold;">
-        アカウント削除をするためにログインしてください
-    </p>
-<%
-}
-%>
-
 <!-- ログイン失敗などのエラーメッセージ -->
 <%
 String error = (String) request.getAttribute("error");
