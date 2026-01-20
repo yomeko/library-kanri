@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%@ page import="java.util.List" %>
 <%@ page import="model.Book" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +10,7 @@
 <title>レンタル画面</title>
 </head>
 <body>
+
 <%
 String loginUser = (String) session.getAttribute("loginUser");
 %>
@@ -20,34 +19,28 @@ String loginUser = (String) session.getAttribute("loginUser");
 ログイン状態：
 <%= (loginUser != null) ? loginUser : "未ログイン" %>
 </p>
+
 <h1>レンタル画面</h1>
 
-<!-- メッセージ表示 -->
-<%
-String message = (String) request.getAttribute("message");
-if (message != null) {
-%>
-<p><%= message %></p>
-<%
-}
-%>
+<% if (loginUser != null) { %>
+    <p>あと <strong><%= request.getAttribute("remainLend") %></strong> 冊借りられます</p>
+<% } %>
 
 <h2>書籍一覧</h2>
-<a href="index.jsp">TOPへ</a>
 
-<form action="rental_servlet" method="get">
-    <button type="submit">一覧に戻る</button>
-</form>
-
-<!-- 検索フォーム（ここに追加） -->
 <form action="rental_servlet" method="get">
     <input type="text" name="keyword" placeholder="書籍名で検索">
     <button type="submit">検索</button>
 </form>
+
 <table border="1">
 <tr>
     <th>書籍名</th>
     <th>在庫数</th>
+    <% if (loginUser != null) { %>
+        <th>貸出</th>
+        <th>返却</th>
+    <% } %>
 </tr>
 
 <%
@@ -58,20 +51,46 @@ if (books != null) {
 <tr>
     <td><%= book.getBook() %></td>
     <td><%= book.getNumber() %></td>
+
+    <% if (loginUser != null) { %>
+        <td>
+            <form action="rental_servlet" method="post">
+                <input type="hidden" name="action" value="lend">
+                <input type="hidden" name="bookname" value="<%= book.getBook() %>">
+                <button type="submit" <%= book.getNumber() <= 0 ? "disabled" : "" %>>
+                    貸出
+                </button>
+            </form>
+        </td>
+        <td>
+            <form action="rental_servlet" method="post">
+                <input type="hidden" name="action" value="return">
+                <input type="hidden" name="bookname" value="<%= book.getBook() %>">
+                <button type="submit">返却</button>
+            </form>
+        </td>
+    <% } %>
 </tr>
 <%
     }
 }
 %>
-
 </table>
 
-</body>
+<% if (loginUser == null) { %>
+    <h2>ログインしたら貸出・返却処理ができます</h2>
+<% } %>
+
+<%
+String popupMessage = (String) request.getAttribute("popupMessage");
+if (popupMessage != null) {
+%>
 <script>
-function disableButton(form) {
-    const button = form.querySelector("button");
-    button.disabled = true;
-    button.textContent = "処理中...";
-}
+    alert("<%= popupMessage %>");
 </script>
+<%
+}
+%>
+
+</body>
 </html>

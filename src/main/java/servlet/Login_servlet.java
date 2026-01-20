@@ -44,7 +44,7 @@ public class Login_servlet extends HttpServlet {
             System.out.println("session id = " + request.getSession().getId());
             
             // レンタル画面へ
-            response.sendRedirect(request.getContextPath() + "/rental_servlet");
+            response.sendRedirect(request.getContextPath() + "/Rental_servlet");
 
         } else {
             request.setAttribute("error", "ユーザー名またはパスワードが違います");

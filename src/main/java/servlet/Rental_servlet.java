@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -10,57 +9,49 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import dao.RentalDao;
-import model.Book;
+import dao.LendDao;
 
-@WebServlet("/rental_servlet")
+@WebServlet("/Rental_servlet")
 public class Rental_servlet extends HttpServlet {
-    private RentalDao dao = new RentalDao();
 
+    private LendDao lendDao = new LendDao();
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-    	System.out.println("rental session id = " + request.getSession().getId());
-    	
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            //		System.out.println("MySQL Driver OK");
-        } catch (ClassNotFoundException e) {
-            throw new ServletException(e);
+        String loginUser = (String) request.getSession().getAttribute("loginUser");
+
+        if (loginUser != null) {
+            int remain = lendDao.getRemainLend(loginUser);
+            request.setAttribute("remainLend", remain);
         }
 
-        String keyword = request.getParameter("keyword");
-        List<Book> books;
-
-        if (keyword != null && !keyword.isEmpty()) {
-            books = dao.searchBooks(keyword);   // ← 追加
-        } else {
-            books = dao.getAllBooks();
-        }
-
-        request.setAttribute("books", books);
-
-        RequestDispatcher dispatcher =
-                request.getRequestDispatcher("/WEB-INF/jsp/rental.jsp");
-        dispatcher.forward(request, response);
+        RequestDispatcher rd =
+            request.getRequestDispatcher("/WEB-INF/jsp/rental.jsp");
+        rd.forward(request, response);
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String action = request.getParameter("action");
+        String loginUser = (String) request.getSession().getAttribute("loginUser");
         int bookId = Integer.parseInt(request.getParameter("bookId"));
 
-        boolean success = false;
+        String message;
 
-        if ("rent".equals(action)) {
-            success = dao.rentBook(bookId);
-            request.setAttribute("message", success ? "貸出成功" : "貸出不可");
-        } else if ("return".equals(action)) {
-            success = dao.returnBook(bookId);
-            request.setAttribute("message", success ? "返却完了" : "返却失敗");
+        if (lendDao.getRemainLend(loginUser) <= 0) {
+            message = "これ以上借りられません";
+        } else if (lendDao.isAlreadyLent(loginUser, bookId)) {
+            message = "すでに借りています";
+        } else if (lendDao.lendBook(loginUser, bookId)) {
+            message = "貸出が完了しました";
+        } else {
+            message = "貸出に失敗しました";
         }
 
-        doGet(request, response); // 一覧を再表示
+        request.setAttribute("message", message);
+        doGet(request, response);
     }
 }

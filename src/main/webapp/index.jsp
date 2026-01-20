@@ -25,8 +25,8 @@
 	</tr>
 	<tr>
 		<th>
-			<form action="rental_servlet" method="get">
-				<input type="submit" value="貸し出し">
+			<form action="Rental_servlet" method="get">
+				<input type="submit" value="書籍一覧">
 			</form>
 		</th>
 		<th>
