@@ -1,27 +1,23 @@
 package model;
 
+/**
+ * 貸出台帳モデル
+ */
 public class Lend {
 
-    private String name;
-    private String bookname;
-
-    public Lend() {}
-
-    public Lend(String name, String bookname) {
-        this.name = name;
-        this.bookname = bookname;
-    }
+    private String name;      // ユーザ名
+    private String bookname;  // 書籍名
 
     public String getName() {
         return name;
     }
 
-    public String getBookname() {
-        return bookname;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBookname() {
+        return bookname;
     }
 
     public void setBookname(String bookname) {

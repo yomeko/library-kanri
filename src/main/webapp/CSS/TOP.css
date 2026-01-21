@@ -1,0 +1,43 @@
+@charset "UTF-8";
+/* =========================
+   TOPへ戻るボタン専用CSS
+   ========================= */
+.back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 120px;
+    height: 44px;
+
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+
+    border-radius: 24px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+
+    transition: 
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.3s ease;
+}
+
+/* ホバー時 */
+.back-to-top:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+}
+
+/* クリック時 */
+.back-to-top:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
