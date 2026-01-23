@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+/* =========================
+   検索エリア専用CSS
+   ========================= */
+
+/* 検索エリア全体 */
+.search-area {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: fit-content;   /* 後ろの無駄スペースを消す */
+}
+
+/* 検索・更新フォーム共通 */
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background: none;
+    padding: 0;
+    box-shadow: none;
+    max-width: none;
+}
+
+/* 入力欄 */
+.search-form input[type="text"] {
+    width: 250px;
+    padding: 8px;
+}
+
+/* ボタン（検索・更新） */
+.search-form button {
+    margin-top: 0;     /* common.cssの影響を打ち消す */
+    padding: 8px 16px;
+}
+
+/* 右寄せエリア（TOPへ等） */
+.right-area {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 20px;
+}
