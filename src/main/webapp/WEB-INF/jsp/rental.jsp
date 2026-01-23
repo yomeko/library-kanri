@@ -20,14 +20,21 @@ List<Book> books = (List<Book>) request.getAttribute("books");
 
 <h1>レンタル画面</h1>
 
+<a href ="index.jsp">TOPへ</a>
+
 <% if (loginUser != null) { %>
     <p>ログイン中：<strong><%= loginUser %></strong></p>
     <p>あと <strong><%= remainLend %></strong> 冊借りられます</p>
 
-    <form action="Rental_servlet" method="get">
-        <input type="text" name="keyword" placeholder="書籍名で検索">
-        <button type="submit">検索</button>
-    </form>
+	<form action="Rental_servlet" method="get" style="display:inline;">
+		<input type="text" name="keyword" placeholder="書籍名で検索">
+   	 	<button type="submit">検索</button>
+	</form>
+
+<!-- ★ 更新ボタン（検索条件をリセット） -->
+<form action="Rental_servlet" method="get" style="display:inline;">
+    <button type="submit">更新</button>
+</form>
 
     <table border="1">
         <tr>
