@@ -14,9 +14,14 @@ public class LendDao {
 
     /**
      * すでにその本を借りているか判定
+     * ※ 返却期限（7日）を過ぎているものは「借りていない扱い」
      */
     public boolean isAlreadyLent(String name, String bookname) {
-        String sql = "SELECT COUNT(*) FROM lend WHERE name=? AND bookname=?";
+
+        String sql =
+            "SELECT COUNT(*) FROM lend " +
+            "WHERE name=? AND bookname=? " +
+            "AND CURDATE() <= DATE_ADD(lend_date, INTERVAL 7 DAY)";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -35,10 +40,14 @@ public class LendDao {
     }
 
     /**
-     * 現在借りている冊数
+     * 現在借りている冊数（期限内のみカウント）
      */
     public int countLend(String name) {
-        String sql = "SELECT COUNT(*) FROM lend WHERE name=?";
+
+        String sql =
+            "SELECT COUNT(*) FROM lend " +
+            "WHERE name=? " +
+            "AND CURDATE() <= DATE_ADD(lend_date, INTERVAL 7 DAY)";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -55,19 +64,24 @@ public class LendDao {
     }
 
     /**
-     * ★ 追加：未返却の本を借りているか判定（アカウント削除用）
+     * 未返却の本を借りているか判定（アカウント削除用）
      */
     public boolean hasLendingBooks(String name) {
         return countLend(name) > 0;
     }
 
     /**
-     * 貸出処理（insert + 在庫減少 + user.lend 減少）
+     * 貸出処理
+     * ・lend にレコード追加
+     * ・lend_date は CURRENT_DATE
+     * ・在庫減少
+     * ・user.lend 減少
      */
     public boolean lendBook(String name, String bookname) {
 
         String insertLend =
-            "INSERT INTO lend(name, bookname) VALUES(?, ?)";
+            "INSERT INTO lend(name, bookname, lend_date) " +
+            "VALUES(?, ?, CURRENT_DATE)";
         String updateBook =
             "UPDATE list SET number = number - 1 WHERE book=? AND number > 0";
         String updateUser =
@@ -102,13 +116,16 @@ public class LendDao {
     }
 
     /**
-     * 返却処理（delete + 在庫増加 + user.lend 増加）
-     * ※ 実際に借りていない場合は false
+     * 返却処理
+     * ・借りた日から7日以内のデータのみ削除
+     * ・期限切れ or 未貸出の場合は false
      */
     public boolean returnBook(String name, String bookname) {
 
         String deleteLend =
-            "DELETE FROM lend WHERE name=? AND bookname=?";
+            "DELETE FROM lend " +
+            "WHERE name=? AND bookname=? " +
+            "AND CURDATE() <= DATE_ADD(lend_date, INTERVAL 7 DAY)";
         String updateBook =
             "UPDATE list SET number = number + 1 WHERE book=?";
         String updateUser =
@@ -125,7 +142,7 @@ public class LendDao {
                 ps1.setString(1, name);
                 ps1.setString(2, bookname);
 
-                // 実際に借りていたかチェック
+                // 実際に削除されたか（＝期限内に借りていたか）
                 int deleted = ps1.executeUpdate();
                 if (deleted == 0) {
                     con.rollback();

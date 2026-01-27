@@ -37,9 +37,11 @@
 <table>
 <tr>
     <th>
-        <form action="newAcount_servlet" method="get">
-            <input type="submit" value="新規登録">
-        </form>
+	<% if (loginUser == null) { %>
+    	<form action="newAcount_servlet" method="get">
+        	<input type="submit" value="新規登録">
+    	</form>
+	<% } %>
     </th>
     <th>
         <form action="Login_servlet" method="get">
@@ -61,9 +63,12 @@
 </tr>
 </table>
 
-<form action="deleteAcount_servlet" method="get" class="delete-btn">
-    <input type="submit" value="アカウント削除">
-</form>
+<%-- 未ログイン時のみ表示 --%>
+<% if (loginUser == null) { %>
+    <form action="deleteAcount_servlet" method="get" class="delete-btn">
+        <input type="submit" value="アカウント削除">
+    </form>
+<% } %>
 
 </body>
 </html>
