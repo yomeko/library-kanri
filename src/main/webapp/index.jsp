@@ -41,6 +41,8 @@
     	<form action="newAcount_servlet" method="get">
         	<input type="submit" value="新規登録">
     	</form>
+	<% }else{ %>
+		<p>新規登録できないよ！</p>
 	<% } %>
     </th>
     <th>
@@ -68,7 +70,8 @@
     <form action="deleteAcount_servlet" method="get" class="delete-btn">
         <input type="submit" value="アカウント削除">
     </form>
-<% } %>
-
+<% } else{%>
+		
+<%} %>
 </body>
 </html>
