@@ -11,11 +11,15 @@ import java.util.List;
 import model.Book;
 
 public class RentalDao {
-    private final String URL = "jdbc:mysql://localhost:3306/library-touroku";
-    private final String USER = "root";
-    private final String PASS = ""; // 適宜変更
 
-    // 貸出処理
+    // DB接続URL
+    private final String URL = "jdbc:mysql://localhost:3306/library-touroku";
+    // DBユーザー
+    private final String USER = "root";
+    // DBパスワード
+    private final String PASS = "";
+
+    // 書籍の在庫を1減らす貸出処理
     public boolean rentBook(int bookId) {
         String sql = "UPDATE list SET number = number - 1 WHERE id = ? AND number > 0";
 
@@ -31,16 +35,15 @@ public class RentalDao {
         }
     }
 
-    // 一覧取得
+    // 全書籍一覧取得
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<>();
         String sql = "SELECT * FROM list";
-        //		System.out.println("RentalDao");
-        
+
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-        	
+
             while (rs.next()) {
                 Book book = new Book();
                 book.setId(rs.getInt("id"));
@@ -51,14 +54,11 @@ public class RentalDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            
-            System.out.println("RentalDao");
-            
         }
         return books;
     }
-    
- // 書籍名で部分一致検索
+
+    // 書籍名の部分一致検索
     public List<Book> searchBooks(String keyword) {
         List<Book> books = new ArrayList<>();
         String sql = "SELECT * FROM list WHERE book LIKE ?";
@@ -66,7 +66,8 @@ public class RentalDao {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, "%" + keyword + "%"); // ← 部分一致の肝
+            // 部分一致用にワイルドカード付与
+            ps.setString(1, "%" + keyword + "%");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -82,8 +83,8 @@ public class RentalDao {
         }
         return books;
     }
-    
- // 返却処理
+
+    // 書籍の在庫を1増やす返却処理
     public boolean returnBook(int bookId) {
         String sql = "UPDATE list SET number = number + 1 WHERE id = ?";
 
