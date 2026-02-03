@@ -1,6 +1,11 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,52 +14,68 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import model.User;
+
 @WebServlet("/Login_servlet")
 public class Login_servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    // ログイン画面表示
+    // DB 接続情報
+    private static final String URL = "jdbc:mysql://localhost:3306/library-touroku?useSSL=false&serverTimezone=Asia/Tokyo";
+    private static final String USER = "root";   // 必要に応じて変更
+    private static final String PASS = "";       // 必要に応じて変更
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        // ログイン画面へフォワード
-        request.getRequestDispatcher("/WEB-INF/jsp/Login.jsp")
-               .forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/Login.jsp").forward(request, response);
     }
 
-    // ログイン処理
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 文字化け対策
         request.setCharacterEncoding("UTF-8");
 
-        // 入力値取得
         String name = request.getParameter("name");
         String pass = request.getParameter("pass");
 
-        // Userオブジェクト生成
-        model.User user = new model.User(name, pass);
-        // DAO生成
-        dao.UserDao dao = new dao.UserDao();
+        // JDBCドライバを明示的にロード
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new ServletException("MySQL JDBCドライバが見つかりません", e);
+        }
 
-        // ログイン判定
-        boolean isLogin = dao.login(user);
+        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement ps = con.prepareStatement(
+                 "SELECT id, name, pass FROM user WHERE name=? AND pass=?")) {
 
-        if (isLogin) {
-            // セッション作成
-            HttpSession session = request.getSession();
-            // ログインユーザーをセッションに保存
-            session.setAttribute("loginUser", user);
+            ps.setString(1, name);
+            ps.setString(2, pass);
 
-            // レンタル画面へリダイレクト
-            response.sendRedirect(request.getContextPath() + "/Rental_servlet");
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int id = rs.getInt("id");
+                    String dbName = rs.getString("name");
+                    String dbPass = rs.getString("pass");
 
-        } else {
-            // ログイン失敗メッセージ設定
-            request.setAttribute("error", "ユーザー名またはパスワードが違います");
-            request.getRequestDispatcher("/WEB-INF/jsp/Login.jsp")
-                   .forward(request, response);
+                    User loginUser = new User(id, dbName, dbPass);
+
+                    HttpSession session = request.getSession();
+                    session.setAttribute("loginUser", loginUser);
+
+                    response.sendRedirect(request.getContextPath() + "/Rental_servlet");
+
+                } else {
+                    request.setAttribute("error", "ユーザー名またはパスワードが違います");
+                    request.getRequestDispatcher("/WEB-INF/jsp/Login.jsp").forward(request, response);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ServletException("DB接続エラー", e);
         }
     }
 }

@@ -10,120 +10,95 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import dao.LendDao;
-import dao.RentalDao;
+import dao.RentalLendDao;
 import model.Book;
+import model.Lend;
 import model.User;
 
 @WebServlet("/Rental_servlet")
 public class Rental_servlet extends HttpServlet {
 
-    // 書籍一覧・検索用DAO
-    private RentalDao rentalDao = new RentalDao();
-    // 貸出台帳管理用DAO
-    private LendDao lendDao = new LendDao();
+    private final RentalLendDao dao = new RentalLendDao();
 
-    /**
-     * 一覧表示・検索処理
-     */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 既存セッションを取得（なければnull）
         HttpSession session = request.getSession(false);
+        User loginUser =
+            (session != null) ? (User) session.getAttribute("loginUser") : null;
 
-        // セッションからログインユーザー取得
-        User loginUser = (session != null)
-                ? (User) session.getAttribute("loginUser")
-                : null;
-
-        // JSPへログイン情報を渡す
         request.setAttribute("loginUser", loginUser);
 
-        // ログイン済みの場合のみ検索処理を実行
         if (loginUser != null) {
 
-            // 検索キーワード取得
+            // 書籍検索
             String keyword = request.getParameter("keyword");
+            List<Book> books =
+                (keyword == null || keyword.isEmpty())
+                    ? dao.getAllBooks()
+                    : dao.searchBooks(keyword);
 
-            // キーワード有無で一覧 or 検索を切り替え
-            List<Book> books = (keyword == null || keyword.isEmpty())
-                    ? rentalDao.getAllBooks()
-                    : rentalDao.searchBooks(keyword);
-
-            // 書籍一覧をリクエストに格納
             request.setAttribute("books", books);
 
-            // 貸出上限（3冊）から残数を計算
-            int remain = 3 - lendDao.countLend(loginUser.getName());
-            request.setAttribute("remainLend", remain);
+            // 残り貸出可能数
+            int remainLend = 3 - dao.countLend(loginUser.getId());
+            request.setAttribute("remainLend", remainLend);
+
+            // 貸出中一覧
+            List<Lend> lendList =
+                dao.findLendingBooksByUser(loginUser.getId());
+            request.setAttribute("lendList", lendList);
         }
 
-        // レンタル画面へフォワード
         request.getRequestDispatcher("/WEB-INF/jsp/rental.jsp")
                .forward(request, response);
     }
 
-    /**
-     * 貸出・返却処理
-     */
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // セッション取得
         HttpSession session = request.getSession(false);
-        // ログインユーザー取得
-        User loginUser = (session != null)
-                ? (User) session.getAttribute("loginUser")//真の場合
-                : null;//疑の場合
+        User loginUser =
+            (session != null) ? (User) session.getAttribute("loginUser") : null;
 
-        // 未ログイン時は処理中断
         if (loginUser == null) {
             request.setAttribute("popupMessage", "ログインしてください");
             doGet(request, response);
             return;
         }
 
-        // 実行アクション取得
-        String action = request.getParameter("action");
-        // 対象書籍名取得
-        String bookname = request.getParameter("bookname");
-        // ログインユーザー名取得
-        String userName = loginUser.getName();
+        String action   = request.getParameter("action");
+        String bookName = request.getParameter("bookname");
 
-        // 貸出処理
+        int userId   = loginUser.getId();
+        String name  = loginUser.getName();
+
         if ("rent".equals(action)) {
 
-            // すでに貸出中か判定
-            if (lendDao.isAlreadyLent(userName, bookname)) {
+            if (dao.isAlreadyLent(userId, bookName)) {
                 request.setAttribute("popupMessage", "すでに借りています");
 
-            // 貸出上限チェック
-            } else if (lendDao.countLend(userName) >= 3) {
+            } else if (dao.countLend(userId) >= 3) {
                 request.setAttribute("popupMessage", "3冊以上は借りられません");
 
-            // 貸出登録
-            } else {
-                lendDao.lendBook(userName, bookname);
+            } else if (dao.lendBook(userId, name, bookName)) {
                 request.setAttribute("popupMessage", "貸出完了");
+
+            } else {
+                request.setAttribute("popupMessage", "在庫がありません");
             }
 
-        // 返却処理
         } else if ("return".equals(action)) {
 
-            // 未貸出の本か判定
-            if (!lendDao.isAlreadyLent(userName, bookname)) {
-                request.setAttribute("popupMessage", "この本は借りていません");
-
-            // 返却実行
-            } else {
-                boolean result = lendDao.returnBook(userName, bookname);
-                request.setAttribute("popupMessage",
-                        result ? "返却完了" : "返却処理に失敗しました");
-            }
+            boolean result = dao.returnBook(userId, bookName);
+            request.setAttribute(
+                "popupMessage",
+                result ? "返却完了" : "返却できません（期限切れ or 未貸出）"
+            );
         }
 
-        // 処理後は一覧再表示
         doGet(request, response);
     }
 }
