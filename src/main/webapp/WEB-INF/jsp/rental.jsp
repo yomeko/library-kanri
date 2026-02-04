@@ -6,13 +6,12 @@
 
 <%
 /*
- * ログイン状態は session から取得（確定仕様）
+ * ログイン状態（確定仕様）
  */
 User loginUser = (User) session.getAttribute("loginUser");
 
 /*
- * 以下は Rental_servlet から request にセットされる想定
- * 未ログイン時は null で問題ない
+ * Rental_servlet から渡される想定（未ログイン時は null 可）
  */
 Integer remainLend = (Integer) request.getAttribute("remainLend");
 String popupMessage = (String) request.getAttribute("popupMessage");
@@ -28,23 +27,6 @@ List<Lend> lendList = (List<Lend>) request.getAttribute("lendList");
 
 <link rel="stylesheet" href="<%= request.getContextPath() %>/CSS/common.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/CSS/search_form.css">
-
-<style>
-    table {
-        border-collapse: collapse;
-        width: 80%;
-        margin-top: 20px;
-    }
-    th, td {
-        padding: 8px;
-        text-align: center;
-        border: 1px solid #ccc;
-    }
-    .right-area {
-        text-align: right;
-        margin-bottom: 10px;
-    }
-</style>
 </head>
 
 <body>
@@ -59,56 +41,73 @@ List<Lend> lendList = (List<Lend>) request.getAttribute("lendList");
     <p>ログイン中：<strong><%= loginUser.getName() %></strong></p>
     <p>あと <strong><%= remainLend %></strong> 冊借りられます</p>
 <% } else { %>
-    <p style="color:red;">※ 書籍の貸出にはログインが必要です</p>
+    <p class="warn">※ 書籍の貸出にはログインが必要です</p>
 <% } %>
 
 <!-- 検索フォーム -->
-<form action="Rental_servlet" method="get" class="search-form" style="display:inline;">
-    <input type="text" name="keyword" placeholder="書籍名で検索">
-    <button type="submit">検索</button>
-</form>
+<table>
+<tr>
 
-<form action="Rental_servlet" method="get" class="search-form" style="display:inline;">
-    <button type="submit">一覧に戻る</button>
-</form>
+	<th>
+		<form action="Rental_servlet" method="get" class="search-form">
+    		<input type="text" name="keyword" placeholder="書籍名で検索">
+    		<button type="submit">検索</button>
+		</form>
+	</th>
+	<th>
+		<form action="Rental_servlet" method="get" class="search-form">
+    		<button type="submit">一覧に戻る</button>
+		</form>
+	</th>
+	<% if (loginUser != null) { %>
+	<th>
+			<form action="MyLibrary_servlet" method="get" class="search-form">
+    		<button type="submit">Myライブラリ</button>
+			</form>
+	</th>
+	<% } %>
 
-<% if (loginUser != null) { %>
-<form action="MyLibrary_servlet" method="get" class="search-form" style="display:inline;">
-    <button type="submit">Myライブラリ</button>
-</form>
-<% } %>
+</tr>
+</table>
+
+
+
 
 <!-- 書籍一覧 -->
-<table>
+<table class="book-table">
     <tr>
         <th>書籍名</th>
         <th>在庫数</th>
-        
+        <th>詳細</th>
         <% if (loginUser != null) { %>
-        <th>貸出</th>
+            <th>貸出</th>
         <% } %>
-        
     </tr>
 
 <% if (books != null && !books.isEmpty()) {
        for (Book book : books) { %>
 <tr>
-    <td><%= book.getBook() %></td>
-    <td><%= book.getNumber() %></td>
-    
-     <% if (loginUser != null) { %>
-    <td>
+    <td class="book-title"><%= book.getBook() %></td>
+    <td class="stock"><%= book.getNumber() %></td>
+
+    <!-- 詳細（テキスト表示） -->
+<td class="detail">
+    <%= book.getDetail() %>
+</td>
+
+    <% if (loginUser != null) { %>
+    <td class="action">
         <form action="Rental_servlet" method="post">
             <input type="hidden" name="action" value="rent">
             <input type="hidden" name="bookname" value="<%= book.getBook() %>">
             <button type="submit"
-    			class="<%= book.isAlreadyLent() ? "lent" : "available" %>"
-   				 <%= book.isAlreadyLent()
-       			 || (remainLend != null && remainLend <= 0)
-       			 || book.getNumber() <= 0
-        		? "disabled" : "" %>>
-   				 <%= book.isAlreadyLent() ? "貸出中" : "貸出" %>
-			</button>
+                class="<%= book.isAlreadyLent() ? "lent" : "available" %>"
+                <%= book.isAlreadyLent()
+                   || (remainLend != null && remainLend <= 0)
+                   || book.getNumber() <= 0
+                   ? "disabled" : "" %>>
+                <%= book.isAlreadyLent() ? "貸出中" : "貸出" %>
+            </button>
         </form>
     </td>
     <% } %>
@@ -116,12 +115,12 @@ List<Lend> lendList = (List<Lend>) request.getAttribute("lendList");
 <%     }
    } else { %>
 <tr>
-    <td colspan="3">書籍がありません</td>
+    <td colspan="<%= loginUser != null ? 4 : 3 %>">書籍がありません</td>
 </tr>
 <% } %>
 </table>
 
-<!-- ポップアップ表示 -->
+<!-- ポップアップ -->
 <% if (popupMessage != null) { %>
 <script>
     alert("<%= popupMessage.replace("\"", "\\\"") %>");

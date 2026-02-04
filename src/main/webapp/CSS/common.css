@@ -1,38 +1,40 @@
-/* =========================
-   共通ベース設定
-   ========================= */
+/* ==================================================
+   リセット・共通設定
+   ================================================== */
 * {
     box-sizing: border-box;
 }
 
 body {
-    background-color: #f2f2f2;
     margin: 0;
     padding: 20px;
+    background-color: #f2f2f2;
     font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
     color: #333;
 }
 
-/* =========================
+
+/* ==================================================
    見出し
-   ========================= */
+   ================================================== */
 h1 {
     margin-bottom: 20px;
+    padding-left: 10px;
     font-size: 24px;
     color: #2c3e50;
     border-left: 6px solid #3498db;
-    padding-left: 10px;
 }
 
-/* =========================
-   通常フォーム（汎用）
-   ========================= */
+
+/* ==================================================
+   フォーム（通常）
+   ================================================== */
 form:not(.delete-btn) {
-    background: #ffffff;
+    max-width: 600px;
     padding: 20px;
+    background-color: #fff;
     border-radius: 6px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
 }
 
 form label {
@@ -57,9 +59,9 @@ form:not(.delete-btn) button {
     margin-top: 20px;
     padding: 10px 16px;
     border: none;
+    border-radius: 4px;
     background-color: #3498db;
     color: #fff;
-    border-radius: 4px;
     cursor: pointer;
 }
 
@@ -68,26 +70,27 @@ form:not(.delete-btn) button:hover {
     background-color: #2980b9;
 }
 
-/* =========================
+
+/* ==================================================
    テーブル
-   ========================= */
+   ================================================== */
 table {
     width: 100%;
-    border-collapse: collapse;
     margin-top: 20px;
-    background: #ffffff;
+    border-collapse: collapse;
+    background-color: #fff;
 }
 
 table th,
 table td {
-    border: 1px solid #ddd;
     padding: 10px;
+    border: 1px solid #ddd;
     text-align: left;
 }
 
 table th {
     background-color: #3498db;
-    color: #ffffff;
+    color: #fff;
 }
 
 table tr:nth-child(even) {
@@ -98,47 +101,16 @@ table tr:hover {
     background-color: #eaf2fb;
 }
 
-/* =========================
-   アカウント削除ボタン（右下固定）
-   ========================= */
-form.delete-btn {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    z-index: 9999;
-
-    background: none;
-    padding: 0;
-    box-shadow: none;
-    max-width: none;
-}
-
-form.delete-btn input[type="submit"] {
-    width: auto;
-    padding: 14px 22px;
-    font-size: 14px;
-    font-weight: bold;
-
-    background-color: #d32f2f;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-}
-
-form.delete-btn input[type="submit"]:hover {
-    background-color: #b71c1c;
-}
-
+/* ==================================================
+   貸出状態ボタン
+   ================================================== */
 button.lent {
-    background-color: #e74c3c; /* 赤 */
-    color: white;
+    background-color: #e74c3c;
+    color: #fff;
     cursor: not-allowed;
 }
 
 button.available {
-    background-color: #2ecc71; /* 緑 */
-    color: white;
+    background-color: #2ecc71;
+    color: #fff;
 }

@@ -20,12 +20,14 @@ public class RentalLendDao {
     private static final int MAX_LEND = 3;
 
     /* ======================
-       蔵書一覧・検索
+       蔵書一覧
        ====================== */
 
     public List<Book> getAllBooks() {
         List<Book> list = new ArrayList<>();
-        String sql = "SELECT book, number FROM list";
+
+        // ★ 追加：detail を含める
+        String sql = "SELECT book, number, detail FROM list";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql);
@@ -35,6 +37,10 @@ public class RentalLendDao {
                 Book b = new Book();
                 b.setBook(rs.getString("book"));
                 b.setNumber(rs.getInt("number"));
+
+                // ★ 追加
+                b.setDetail(rs.getString("detail"));
+
                 list.add(b);
             }
         } catch (Exception e) {
@@ -43,9 +49,15 @@ public class RentalLendDao {
         return list;
     }
 
+    /* ======================
+       検索
+       ====================== */
+
     public List<Book> searchBooks(String keyword) {
         List<Book> list = new ArrayList<>();
-        String sql = "SELECT book, number FROM list WHERE book LIKE ?";
+
+        // ★ 追加：detail を含める
+        String sql = "SELECT book, number, detail FROM list WHERE book LIKE ?";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -57,6 +69,10 @@ public class RentalLendDao {
                 Book b = new Book();
                 b.setBook(rs.getString("book"));
                 b.setNumber(rs.getInt("number"));
+
+                // ★ 追加
+                b.setDetail(rs.getString("detail"));
+
                 list.add(b);
             }
         } catch (Exception e) {
@@ -231,5 +247,4 @@ public class RentalLendDao {
         }
         return list;
     }
-    
 }

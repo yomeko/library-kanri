@@ -18,15 +18,16 @@ public class ListDao {
 
     public List<Book> findAll() {
 
-    	try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-    	
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         List<Book> bookList = new ArrayList<>();
-        String sql = "SELECT id, book, number FROM list";
+
+        // ★ 追加：detail カラムを取得
+        String sql = "SELECT id, book, number, detail FROM list";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = con.prepareStatement(sql);
@@ -34,9 +35,13 @@ public class ListDao {
 
             while (rs.next()) {
                 Book b = new Book();
-                b.setId(rs.getInt("id"));          // 画面には出さない
-                b.setBook(rs.getString("book"));  // 本の名前
-                b.setNumber(rs.getInt("number")); // 数量
+                b.setId(rs.getInt("id"));
+                b.setBook(rs.getString("book"));
+                b.setNumber(rs.getInt("number"));
+
+                // ★ 追加：図書詳細情報
+                b.setDetail(rs.getString("detail"));
+
                 bookList.add(b);
             }
 
