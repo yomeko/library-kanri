@@ -22,11 +22,9 @@
 
     <h1><%= request.getAttribute("message") %></h1>
 
-    <p>
-        <a href="<%= request.getContextPath() %>/Login_servlet">
-            ログイン画面へ
-        </a>
-    </p>
+<form action="Login_servlet" method="get">
+        <input type="submit" value="ログイン画面へ">
+    </form>
 
     <form action="index.jsp" method="get">
         <input type="submit" value="トップに戻る">

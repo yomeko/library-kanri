@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,7 +23,7 @@ public class newAcount_servlet extends HttpServlet {
 
     // DB 接続情報
     private static final String URL =
-        "jdbc:mysql://localhost:3306/library-touroku";
+        "jdbc:mysql://localhost:3306/library-touroku?useSSL=false&serverTimezone=Asia/Tokyo";
     private static final String USER = "root";
     private static final String PASS = "";
 
@@ -32,9 +31,8 @@ public class newAcount_servlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        RequestDispatcher dispatcher =
-            request.getRequestDispatcher("/WEB-INF/jsp/newAcount.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/newAcount.jsp")
+               .forward(request, response);
     }
 
     @Override
@@ -47,27 +45,32 @@ public class newAcount_servlet extends HttpServlet {
         String name = request.getParameter("name");
         String pass = request.getParameter("pass");
 
-        // ===== 正規化（最重要）=====
+        // ===== null / 空白チェック（最優先）=====
+        if (name == null || pass == null ||
+            name.isBlank() || pass.isBlank()) {
+
+            request.setAttribute("errorMsg", "ユーザー名とパスワードは必須です");
+            request.getRequestDispatcher("/WEB-INF/jsp/newAcount.jsp")
+                   .forward(request, response);
+            return;
+        }
+
+        // ===== 正規化 =====
         name = normalize(name);
         pass = normalize(pass);
 
-        // ===== 入力チェック =====
-        if (isBlank(name) || isBlank(pass)) {
-            request.setAttribute("errorMsg", "名前とパスワードは必須です");
-            RequestDispatcher dispatcher =
-                request.getRequestDispatcher("/WEB-INF/jsp/newAcount.jsp");
-            dispatcher.forward(request, response);
+        // ===== 禁止文字列チェック（仕様）=====
+        if (isForbiddenWord(name)) {
+            request.setAttribute("errorMsg", "使用できないユーザー名です");
+            request.getRequestDispatcher("/WEB-INF/jsp/newAcount.jsp")
+                   .forward(request, response);
             return;
         }
 
         // ===== DB登録 =====
-        User user = null;
-        boolean isRegistered = false;
-
         String sql = "INSERT INTO user(name, pass) VALUES(?, ?)";
-         
-        System.out.println("newAcount_servletの69行目まで実行できた");
-        
+        User user = null;
+
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps =
                  con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -75,35 +78,36 @@ public class newAcount_servlet extends HttpServlet {
             ps.setString(1, name);
             ps.setString(2, pass);
 
-            System.out.println("78行目まで実行できた");
-            
             int count = ps.executeUpdate();
-            if (count > 0) {
-                ResultSet rs = ps.getGeneratedKeys();
-                if (rs.next()) {
-                    int id = rs.getInt(1);
-                    user = new User(id, name, pass);
-                    isRegistered = true;
+            if (count == 1) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        int id = rs.getInt(1);
+                        user = new User(id, name, pass);
 
-                    HttpSession session = request.getSession();
-                    session.setAttribute("loginUser", user);
+                        HttpSession session = request.getSession();
+                        session.setAttribute("loginUser", user);
+                    }
                 }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            // UNIQUE制約違反など
             request.setAttribute(
                 "errorMsg",
                 "登録に失敗しました（ユーザー名が既に存在する可能性があります）"
             );
+            request.getRequestDispatcher("/WEB-INF/jsp/newAcount.jsp")
+                   .forward(request, response);
+            return;
         }
 
-        request.setAttribute("isRegistered", isRegistered);
+        // ===== 正常終了 =====
         request.setAttribute("user", user);
+        request.setAttribute("isRegistered", true);
 
-        RequestDispatcher dispatcher =
-            request.getRequestDispatcher("/WEB-INF/jsp_Result/newAcount_Result.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp_Result/newAcount_Result.jsp")
+               .forward(request, response);
     }
 
     // ===== 正規化 =====
@@ -113,11 +117,16 @@ public class newAcount_servlet extends HttpServlet {
         return str.replaceAll("^[\\s　]+|[\\s　]+$", "");
     }
 
-    // ===== 空判定 =====
-    // null / 空文字 / 半角空白 / 全角空白のみ true
-    private boolean isBlank(String str) {
+    // ===== 禁止語判定 =====
+    private boolean isForbiddenWord(String str) {
         if (str == null) return true;
-        String replaced = str.replace("　", " ").trim();
-        return replaced.isEmpty();
+        switch (str.toLowerCase()) {
+            case "null":
+            case "true":
+            case "false":
+                return true;
+            default:
+                return false;
+        }
     }
 }

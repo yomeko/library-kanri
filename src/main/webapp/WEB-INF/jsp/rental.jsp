@@ -78,6 +78,13 @@ List<Lend> lendList = (List<Lend>) request.getAttribute("lendList");
                 </form>
             </th>
             <% } %>
+            <% if (loginUser == null) { %>
+            <th>
+            	<form action="Login_servlet" method="get">
+            		<input type="submit" value="ログイン">
+        		</form>
+            </th>
+            <% } %>
         </tr>
     </table>
 

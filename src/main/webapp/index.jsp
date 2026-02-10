@@ -50,7 +50,7 @@ if (session != null) {
 
 <div class="menu">
 	<table>
-	<tr>
+		<tr>
 		<th>
    			 <% if (loginUser == null) { %>
         		<form action="newAcount_servlet" method="get">
@@ -62,32 +62,27 @@ if (session != null) {
        			 </form>
    			 <% } %>
     	</th>
+    	</tr>
+    	<tr>
 		<th>
    		 	<% if (loginUser == null) { %>
         		<form action="Login_servlet" method="get">
             		<input type="submit" value="ログイン">
         		</form>
     		<% } else { %>
-        		<p>ログイン中のためログイン不可</p>
+        		<form action="Logout_servlet" method="get">
+            		<input type="submit" value="ログアウト">
+        		</form>
     		<% } %>
     	</th>
-    </tr>
-	<tr>
+		</tr>
+		<tr>
 		<th>
     		<form action="Rental_servlet" method="get">
         		<input type="submit" value="本 検索">
     		</form>
 		</th>
-		<th>
-    		<% if (loginUser != null) { %>
-        		<form action="Logout_servlet" method="get">
-            		<input type="submit" value="ログアウト">
-        		</form>
-    		<% } else { %>
-        		<p>ログアウト不可</p>
-    		<% } %>
-    	</th>
-    </tr>
+		</tr>
 	</table>
 </div>
 </div>

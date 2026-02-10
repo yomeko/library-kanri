@@ -28,10 +28,6 @@ thead th {
     position: sticky;
     top: 0;
     z-index: 2;
-
-    /* ヘッダーは少し濃くして可読性確保 */
-    background-color: rgba(52, 152, 219, 0.9);
-    color: #fff;
 }
 
 /* ==============================
@@ -42,28 +38,38 @@ thead th {
        vertical-align: middle;   /* ★ 縦ズレ解消 */
        text-align: center;       /* 横も統一 */
    }
-td {
-    padding: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    text-align: left;
-}
+   td {
+       padding: 0.1px 8px;   /* 上下4px / 左右8px */
+       border: 1px solid rgba(0, 0, 0, 0.1);
+       text-align: left;
+   }
 
 /* ==============================
    行装飾
    ============================== */
-tbody tr:nth-child(even) {
-    background-color: rgba(242, 242, 242, 0.6);
-}
+   /* 既存 */
+   .rental-table {
+       background-color: rgba(205,230,199, 0.8);
+   }
 
-tbody tr:hover {
-    background-color: rgba(234, 242, 251, 0.8);
-}
+   .rental-table th,
+   .rental-table td {
+       color: #000;
+       text-shadow:
+           -1px -1px 0 #ffffff,
+            1px -1px 0 #ffffff,
+           -1px  1px 0 #ffffff,
+            1px  1px 0 #ffffff;
+   }
 
-.rental-table {
-    background-color: #ffffff;
-}
+   /* ここから追加 */
 
-.rental-table th,
-.rental-table td {
-    background-color: #ffffff;
-}
+   /* 奇数行 */
+   .rental-table tbody tr:nth-child(odd) {
+       background-color: rgba(64,	186,141, 0.6);
+   }
+
+   /* 偶数行 */
+   .rental-table tbody tr:nth-child(even) {
+       background-color: rgba(185,215,175, 0.6);
+   }
