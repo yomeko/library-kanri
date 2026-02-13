@@ -15,9 +15,6 @@
        width: auto;
        display: inline-table;
        margin: 20px auto;
-       border-collapse: collapse;
-
-       background-color: transparent; /* ← ここが重要 */
    }
 
 
@@ -40,7 +37,6 @@ thead th {
    }
    td {
        padding: 0.1px 8px;   /* 上下4px / 左右8px */
-       border: 1px solid rgba(0, 0, 0, 0.1);
        text-align: left;
    }
 

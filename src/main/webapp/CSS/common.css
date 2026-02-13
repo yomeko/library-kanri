@@ -8,10 +8,10 @@
 body {
     margin: 0;
     padding: 20px;
-    background-color: #eee;
+    background-color: #a0d878;
     font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
     color: #333;
-	background-image: linear-gradient(rgba(255,255,255,0.6),rgba(255,255,255,0.6)),url("../images/library.jpg");
+	background-image: linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0.7)),url("../images/library.jpg");
 	background-size: cover;
 	    background-position: center;
 	    background-repeat: no-repeat;
